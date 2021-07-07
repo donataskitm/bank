@@ -60,7 +60,7 @@ class HomeController extends Controller
 
 
         //  $transfers = User::find(auth()->user()->id);
-        $soul = 'kkk' ;
+ 
         return view('pages.list', compact('transfers'));
     }
     public function error(){
