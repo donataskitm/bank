@@ -19,7 +19,7 @@ Route::get('/search', [HomeController::class, 'search']);
 Route::get('/transfer', [HomeController::class, 'transfer']);
 Route::post('/list', [HomeController::class, 'list']);
 Route::post('/store', [TransferController::class, 'store']);
-Route::get('/error', [HomeController::class, 'error']);
+Route::get('/error', [TransferController::class, 'error']);
 
 
 Auth::routes();

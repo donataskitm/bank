@@ -1,12 +1,17 @@
 @extends('main')
 @section('content')
+
+    @if(session()->has('message'))
     <div class="main-navbar sticky-top bg-white">
         <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
             <i class="fa fa-check mx-2"></i>
-            <strong>Success!</strong> Your profile has been updated! </div></div>
+            <strong>{{ session()->get('message') }}</strong></div></div>
+    @endif
+
+
     <div class="page-header row no-gutters py-4">
     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
         <h3 class="page-title">Lėšų pavedimas</h3>
@@ -23,10 +28,13 @@
                 <li class="list-group-item p-3">
                     <div class="row">
                         <div class="col">
+
                             <form   action="/store" method="post" enctype="multipart/form-data">
-                                @csrf
+                                   @csrf
+                                <div class="">@include('_partials/errors')     </div>
                                 <div class="form-row">
-                                       <div class="form-group col-md-4">
+
+                                    <div class="form-group col-md-4">
                                         <label for="faccountfrom">Pasirinkite iš kurios sąskaitos atliksite pavedimą</label>
                                         <select id="faccountfrom" name="faccountfrom"  class="form-control">
                                             <option selected>Pasirinkite...</option>

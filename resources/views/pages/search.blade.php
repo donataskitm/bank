@@ -17,9 +17,12 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item p-3">
                         <div class="row">
+
                             <div class="col">
+
                                 <form   action="/list" method="post" enctype="multipart/form-data">
-                                    @csrf
+                                     @csrf
+                                    <div class="">@include('_partials/errors')     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
                                             <label for="faccount">Sąskaitos numeris</label>
@@ -66,9 +69,6 @@
             format: 'yyyy-mm-dd'
         });
     </script>
-
-
-
 
 
 @endsection
