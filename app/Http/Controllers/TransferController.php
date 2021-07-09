@@ -31,6 +31,7 @@ class TransferController extends Controller
             'date'=>now()->format('Y-m-d')
         ]);
         //return redirect('/transfer');
+        //return Redirect::back('/transfer')->withStatus('Mokejimas atliktas');
         return redirect('/transfer')->with('message','Mokejimas atliktas');
     }
 }

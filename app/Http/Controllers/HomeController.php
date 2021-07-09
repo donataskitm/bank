@@ -42,6 +42,11 @@ class HomeController extends Controller
     }
     public function list(Request $request){
 
+        $validateData = $request->validate([
+            'faccount'=>'required|string|min:12|max:12',
+            'datefrom'=>'required|date|before:now+1 minute',
+            'dateto'=>'required|date|after:datefrom|before:now+1 minute'
+        ]);
 
         $transfers1= User::join('accounts', 'accounts.user_id', 'users.id')
             ->join('transfers', 'account_id_from', 'accounts.id')
@@ -60,7 +65,7 @@ class HomeController extends Controller
 
 
         //  $transfers = User::find(auth()->user()->id);
- 
+
         return view('pages.list', compact('transfers'));
     }
     public function error(){
