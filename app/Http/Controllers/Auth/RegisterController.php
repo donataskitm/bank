@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Account;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -63,14 +65,43 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+
+
+
     protected function create(array $data)
     {
-        return
-        User::create([
+
+        $user = User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        Account::create([
+            'user_id'=> $user->id,
+            'balance'=>500,
+            'main_account'=>1,
+            'account_no'=>self::generateAccNumber(),
+
+        ]);
+
+        Account::create([
+            'user_id'=> $user->id,
+            'balance'=>0,
+            'main_account'=>2,
+            'account_no'=>self::generateAccNumber(),
+        ]);
+        return $user;
+
     }
+
+    public function generateAccNumber(): string
+    {
+        do {
+            $refrence_id = mt_rand(1000000000, 9999999999);
+        } while ( DB::table( 'accounts' )->where( 'account_no', 'LT'.$refrence_id )->exists() );
+        return  'LT'.$refrence_id;
+    }
+
 }

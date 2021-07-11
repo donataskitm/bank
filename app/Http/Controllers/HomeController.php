@@ -42,6 +42,8 @@ class HomeController extends Controller
     }
     public function list(Request $request){
 
+        $query_userID = auth()->user()->id;
+
         $validateData = $request->validate([
             'faccount'=>'required|string|min:12|max:12',
             'datefrom'=>'required|date|before:now+1 minute',
@@ -50,22 +52,22 @@ class HomeController extends Controller
 
         $transfers1= User::join('accounts', 'accounts.user_id', 'users.id')
             ->join('transfers', 'account_id_from', 'accounts.id')
-            ->where('users.id', '=', auth()->user()->id)
+            ->where('users.id', '=', $query_userID)
             ->where('account_no', '=', $request->input('faccount'))
             ->whereBetween('date', [$request->input('datefrom'), $request->input('dateto')]);
 
         $transfers= User::join('accounts', 'accounts.user_id', 'users.id')
             ->join('transfers', 'account_id_to', 'accounts.id')
-            ->where('users.id', '=', auth()->user()->id)
+            ->where('users.id', '=', $query_userID)
             ->where('account_no', '=', $request->input('faccount'))
             ->whereBetween('date', [$request->input('datefrom'), $request->input('dateto')])
             ->union($transfers1)
             ->get();
 
-
+        $transfers->moredata = $request->input('faccount');
 
         //  $transfers = User::find(auth()->user()->id);
-
+       // $sask=  $request->input('faccount');
         return view('pages.list', compact('transfers'));
     }
     public function error(){

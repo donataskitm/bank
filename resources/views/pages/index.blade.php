@@ -26,7 +26,7 @@
                         <li class="list-group-item p-4 col-lg-6">
 
                                 <strong class="text-muted d-block mb-2">Sąskaita:   <span>{{$account->account_no}}</span> </strong>
-                                <strong class="text-muted d-block mb-2">Saskaita yra:   <span>
+                                <strong class="text-muted d-block mb-2">  <span>
 
                                          @if(($account->main_account)==1)
                                             Pagrindinė sąskaita

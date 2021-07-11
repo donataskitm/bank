@@ -11,7 +11,6 @@
     <div class="row">
         <div class="col-lg-12">
 
-
             <div class="row">
                 <div class="col">
                     <div class="card card-small mb-4">
@@ -20,6 +19,7 @@
                         </div>
                         <div class="card-body p-0 pb-3 text-center">
                             <h4 class="mb-0">{{ auth()->user()->name }} {{ auth()->user()->surname }}</h4>
+
                             <table class="table mb-0">
                                 <thead class="bg-light">
                                 <tr>
@@ -34,28 +34,17 @@
                                 </thead>
                                 <tbody>
                                 <?php $no=1 ?>
+
                                 @forelse($transfers as $acc)
+
                                     <tr>
                                         <td>{{$no}}</td>
                                         <td>{{$acc->date}}</td>
 
-
-
                                         <td></br>{{$acc['account_id_from']}} </td>
                                         <td></br>{{$acc['account_id_to']}}</td>
-
-
                                         <td>{{$acc['purpose']}}</td>
-
-
-
-
                                             <td> {{$acc['amount']}}</td>
-
-
-
-
-
 
                                         <td>
 
@@ -67,13 +56,9 @@
                                         </td>
                                         <?php $no=$no+1 ?>
                                         @empty
-
-
                                         @endforelse
 
-
                                     </tr>
-
 
                                 </tbody>
                             </table>
