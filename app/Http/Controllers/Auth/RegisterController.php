@@ -66,11 +66,8 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
 
-
-
     protected function create(array $data)
     {
-
         $user = User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
@@ -83,7 +80,6 @@ class RegisterController extends Controller
             'balance'=>500,
             'main_account'=>1,
             'account_no'=>self::generateAccNumber(),
-
         ]);
 
         Account::create([
@@ -93,15 +89,13 @@ class RegisterController extends Controller
             'account_no'=>self::generateAccNumber(),
         ]);
         return $user;
-
     }
 
     public function generateAccNumber(): string
     {
         do {
-            $refrence_id = mt_rand(1000000000, 9999999999);
+            $refrence_id = mt_rand(100000000000000000, 999999999999999999);
         } while ( DB::table( 'accounts' )->where( 'account_no', 'LT'.$refrence_id )->exists() );
         return  'LT'.$refrence_id;
     }
-
 }

@@ -45,7 +45,7 @@ class HomeController extends Controller
         $query_userID = auth()->user()->id;
 
         $validateData = $request->validate([
-            'faccount'=>'required|string|min:12|max:12',
+            'faccount'=>'required|string|min:20|max:20',
             'datefrom'=>'required|date|before:now+1 minute',
             'dateto'=>'required|date|after:datefrom|before:now+1 minute'
         ]);
