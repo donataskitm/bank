@@ -51,8 +51,8 @@ SendMoney implements ShouldQueue
     {
 //dd($this->amount);
         Account::where('account_no', $this->faccountfrom)->update(['reserved' => $this->ac1['reserved']-$this->amount]);
-        Account::where('account_no',  $this->faccountto)->update(['balance' => $this->ac1['balance']+$this->amount]);
-        Account::where('account_no', $this->faccountfrom)->update(['balance' => $this->ac['balance']-$this->amount]);
+        Account::where('account_no',  $this->faccountto)->update(['balance' => $this->ac['balance']+$this->amount]);
+        Account::where('account_no', $this->faccountfrom)->update(['balance' => $this->ac1['balance']-$this->amount]);
 
         //Account::where('account_no', 'LT655597745445546503')->update(['balance' => $this->h]);
         Transfer::create([
