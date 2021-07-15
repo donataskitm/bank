@@ -17,6 +17,7 @@ class CreateAccountsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->decimal('balance',9,2);
+            $table->decimal('reserved',9,2);
             $table->boolean('main_account');
             $table->string('account_no')->unique();
             $table->timestamps();

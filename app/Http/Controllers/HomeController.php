@@ -46,8 +46,8 @@ class HomeController extends Controller
 
         $validateData = $request->validate([
             'faccount'=>'required|string|min:20|max:20',
-            'datefrom'=>'required|date|before:now+1 minute',
-            'dateto'=>'required|date|after:datefrom|before:now+1 minute'
+            'datefrom'=>'required|date|before_or_equal:dateto',
+            'dateto'=>'required|date|after_or_equal:datefrom|before:now+1 second'
         ]);
 
         $transfers1= User::join('accounts', 'accounts.user_id', 'users.id')
@@ -73,6 +73,5 @@ class HomeController extends Controller
     public function error(){
         return view('pages.error');
     }
-
 
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class RegisterController extends Controller
 {
@@ -68,27 +69,39 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'surname' => $data['surname'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
 
-        Account::create([
-            'user_id'=> $user->id,
-            'balance'=>500,
-            'main_account'=>1,
-            'account_no'=>self::generateAccNumber(),
-        ]);
+        try {  //jei ivyks klaida kurioj nors is 3-ju uzklausu, nebus iterpiami irasai, o iterpti atsaukti
+            DB::beginTransaction();
+            $user = User::create([
+                'name' => $data['name'],
+                'surname' => $data['surname'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
 
-        Account::create([
-            'user_id'=> $user->id,
-            'balance'=>0,
-            'main_account'=>2,
-            'account_no'=>self::generateAccNumber(),
-        ]);
+            $acc1 = Account::create([
+                'user_id' => $user->id,
+                'balance' => 500,
+                'reserved' =>0,
+                'main_account' => 1,
+                'account_no' => self::generateAccNumber(),
+            ]);
+          $acc2 = Account::create([
+                'user_id' => $user->id,
+                'balance' => 0,
+                'reserved' =>0,
+                'main_account' => 2,
+               'account_no' => self::generateAccNumber(),
+            ]);
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
+
         return $user;
+
     }
 
     public function generateAccNumber(): string

@@ -10,14 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class AccountController extends Controller
 {
 
-    public function addAccount(){
-        Account::create([
-            'user_id'=> Auth::id(),
-            'balance'=> 500.00,
-            'main_account'=> '1'
-        ]);
 
-    }
     /**
      * @return \Illuminate\Http\Response
      * @param $id

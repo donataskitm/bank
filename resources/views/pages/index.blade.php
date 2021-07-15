@@ -36,6 +36,7 @@
 
                                         </span> </strong>
                                 <strong class=" list-group-item text-muted d-block mb-2">Balansas:   <span>{{$account->balance}}</span> </strong>
+                            <strong class=" list-group-item text-muted d-block mb-2">Rezervuota:   <span>{{$account->reserved}}</span> </strong>
 
                         </li>@endforeach
 
