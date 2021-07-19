@@ -3,7 +3,7 @@
 3. Autentifikuotas vartotojas matyto savo banko saskaitos likuti (atlikta).
 4. Atlikti pinigu pervedima kitam sistemos vartotojui nurodant banko saskaitos nr., varda, pavarde, mokejimo paskirti (atlikta).
 5. Atšaukti	pavedimą,	kol	jis	nėra	patvirtintas	(pavedimas	patvirtinamas	praėjus	2	min.	po	
-pavedimo	išsaugojimo	sistemoje) (neatlikta).
+pavedimo	išsaugojimo	sistemoje) (atlikta).
 6. Gauti	pinigus	iš	kito	vartotojo (atlikta).
 7. Pervesti	pinigus	tarp	savo	sąskaitų (atlikta).
 8. Generuoti	banko	išrašą,	kuriame	būtų	pateikta	informacija	apie	bankines	operacijas(įplaukos,	
