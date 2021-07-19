@@ -20,6 +20,7 @@ Route::get('/transfer', [HomeController::class, 'transfer']);
 Route::post('/list', [HomeController::class, 'list']);
 Route::post('/store', [TransferController::class, 'store']);
 Route::get('/error', [TransferController::class, 'error']);
+Route::get('/cancel/{id}', [TransferController::class, 'cancel']);
 
 
 Auth::routes();

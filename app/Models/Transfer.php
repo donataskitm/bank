@@ -28,4 +28,7 @@ class Transfer extends Model
     public function account(){ //atgalinis rysys
         return $this->belongsTo(Account::class);
     }
+    public function job(){
+        return $this->hasMany(Job::class);
+    }
 }

@@ -26,9 +26,9 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
                                             <label for="faccount">Sąskaitos numeris</label>
-                                            <select id="faccount" name="faccount" class="form-control">
+                                            <select id="faccount" name="faccount" class="form-control"  >
                                                 <option selected>Pasirinkite...</option>
-                                 @foreach(DB::Table('accounts')->select( 'account_no')->where('user_id', auth()->user()->id)->get() as $rez)
+                                 @foreach($users_id as $rez)
                                                     <option>{{$rez->account_no}}</option>
                         @endforeach
 
@@ -38,11 +38,11 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="datefrom">Periodo pradžia</label>
-                                            <input type="text" class="date form-control" id="datefrom" name="datefrom" placeholder="First Name" value=" "> </div>
+                                            <input type="text" class="date form-control" id="datefrom" name="datefrom" placeholder="First Name" value=" {{old('datefrom')}}"> </div>
 
                                         <div class="form-group col-md-6">
                                             <label for="fdateto">Periodo pabaiga</label>
-                                            <input type="text" class="date form-control" id="dateto" name="dateto" placeholder="Last Name" value=" "> </div>
+                                            <input type="text" class="date form-control" id="dateto" name="dateto" placeholder="Last Name" value="{{old('dateto')}} "> </div>
                                     </div>
 
                                     <button type="submit" class="btn btn-accent">Ieškoti</button>

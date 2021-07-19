@@ -45,23 +45,23 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="faccountto">Pasirinkite į kurią sąskaitą atliksite pavedimą</label>
-                                        <input type="text" class="form-control" id="faccountto" name="faccountto"> </div>
+                                        <input type="text" class="form-control" id="faccountto" name="faccountto" value="{{old('faccountto')}}"> </div>
                                     <div class="form-group col-md-4">
                                         <label for="name">Suma</label>
-                                        <input type="text" class="form-control" id="amount" name="amount" placeholder="" value=""> </div>
+                                        <input type="text" class="form-control" id="amount" name="amount" placeholder="" value="{{old('amount')}}"> </div>
 
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="name">Gavėjo vardas</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="" value=""> </div>
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="" value="{{old('name')}}"> </div>
                                     <div class="form-group col-md-6">
                                         <label for="surname">Gavėjo pavardė</label>
-                                        <input type="text" class="form-control" id="surnname" name="surname" placeholder="" value=""> </div>
+                                        <input type="text" class="form-control" id="surnname" name="surname" placeholder="" value="{{old('surname')}}"> </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="purpose">Pavedimo paskirtis</label>
-                                    <input type="text" class="form-control" id="purpose" name="purpose" placeholder=""> </div>
+                                    <input type="text" class="form-control" id="purpose" name="purpose" placeholder="" value="{{old('purpose')}}"> </div>
                                 <button type="submit" class="btn btn-accent">Vykdyti pavedimą</button>
                             </form>
                         </div>

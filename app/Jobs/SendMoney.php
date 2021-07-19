@@ -18,30 +18,28 @@ class
 SendMoney implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $timeout = 120;
+    public $timeout = 10;
 
     public $ac;
     public $ac1;
     public $faccountfrom;
     public $faccountto;
-    public $purpose;
     public $amount;
+    public $tid;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($ac, $ac1, $faccountfrom, $faccountto, $purpose, $amount)
+    public function __construct($ac, $ac1, $faccountfrom, $faccountto, $amount, $tid)
     {
-
         $this->ac=$ac;
         $this->ac1=$ac1;
         $this->faccountfrom=$faccountfrom;
         $this->faccountto=$faccountto;
-        $this->purpose=$purpose;
         $this->amount=$amount;
+        $this->tid=$tid;
     }
-
     /**
      * Execute the job.
      *
@@ -49,25 +47,11 @@ SendMoney implements ShouldQueue
      */
     public function handle()
     {
-//dd($this->amount);
+       // $this->job->getJobId();
         Account::where('account_no', $this->faccountfrom)->update(['reserved' => $this->ac1['reserved']-$this->amount]);
-        Account::where('account_no',  $this->faccountto)->update(['balance' => $this->ac['balance']+$this->amount]);
         Account::where('account_no', $this->faccountfrom)->update(['balance' => $this->ac1['balance']-$this->amount]);
-
+        Account::where('account_no',  $this->faccountto)->update(['balance' => $this->ac['balance']+$this->amount]);
+        Transfer::where('id', $this->tid)->update(['status' => 2]);
         //Account::where('account_no', 'LT655597745445546503')->update(['balance' => $this->h]);
-        Transfer::create([
-            'account_id_from' => self::filterAccNumber($this->faccountfrom)->id, //
-            'account_id_to'=> self::filterAccNumber($this->faccountto)->id,
-            'purpose'=>$this->purpose,
-            'status'=>1,
-            'amount'=> $this->amount,
-            'date'=>now()->format('Y-m-d')
-        ]);
-    }
-    public function filterAccNumber($acc_id){
-        return DB::table('accounts')
-            ->select('id')
-            ->where('account_no', '=', $acc_id)
-            ->first();
     }
 }
