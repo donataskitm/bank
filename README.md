@@ -12,7 +12,7 @@ mokėjimai) (nerodo bankos saskaitos numerio)
 šablonas (atlikta).
 10. Visa	informacija	saugoma	realiacinėje duomenų	bazėje (atlikta).
 11. Kiekvienas	vartotojas	turi	turėti	po	dvi	sąskaitas,	kurių	vieną	nustatyta,	kaip	pagrindinė (atlikta).
-12. Kiekvieno	vartotojo	pagrindinė	sąskaita	po	pirmo	prisijungimo	papildoma	500	EUR	(automatiškai)(atlikta).
+12. Kiekvieno	vartotojo	pagrindinė	sąskaita	po	pirmo	prisijungimo	papildoma	500	EUR	(automatiškai)(atlikta, kad prisiregistravus papildoma ir sukuriamos sąskaitos).
 13. Kiekvienas	vartotojas	mato	tik	savo	duomenis (atlikta).
 14. Pavedimo	forma	turi	būti	validuojama,	banko	sąskaita	turi	atitikti	IBAN	formatą,	jeigu	lėšų	
 pavedimui	neužtenka,	pavedimas	nevykdomas,	apie	tai	pranešant	vartotojui,	negali	likti	
