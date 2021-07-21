@@ -7,7 +7,7 @@ pavedimo	išsaugojimo	sistemoje) (atlikta).
 6. Gauti	pinigus	iš	kito	vartotojo (atlikta).
 7. Pervesti	pinigus	tarp	savo	sąskaitų (atlikta).
 8. Generuoti	banko	išrašą,	kuriame	būtų	pateikta	informacija	apie	bankines	operacijas(įplaukos,	
-mokėjimai) (nerodo bankos saskaitos numerio)
+mokėjimai) (atlikta)
 9. Administracinės	srities	vartotojo	sąsajai	turi	būti	panaudotas	pateiktas	HTML5/	CSS/JS
 šablonas (atlikta).
 10. Visa	informacija	saugoma	realiacinėje duomenų	bazėje (atlikta).
