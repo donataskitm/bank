@@ -21,38 +21,39 @@
                                 <tr>
                                     <th scope="col" class="border-0">Nr.</th>
                                     <th scope="col" class="border-0">Data</th>
-                                    <th scope="col" class="border-0">Siuntėjo sask id</th>
-                                    <th scope="col" class="border-0">Gavėjo sask.id</th>
+                                    <th scope="col" class="border-0">Siuntėjo sąskaita</th>
+                                    <th scope="col" class="border-0">Gavėjo sąskaita</th>
                                     <th scope="col" class="border-0">Mokėjimo paskirtis</th>
-                                    <th scope="col" class="border-0">Suma</th>
+                                    <th scope="col" class="border-0">Suma, Eur</th>
                                     <th scope="col" class="border-0">Statusas</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     <?php $no=1 ?>
                                     @forelse($transfers as $acc)
-                                        @if($acc['account_id_to']==$acc_id->id && ($acc['status']==1))
-                                        @else
+                                        @if($acc['account_id_from']==$acc_id->id && ($acc['status']==1) or ($acc['status']==2))
                                             <tr>
                                                 <td>{{$no}}</td>
                                                 <td>{{$acc->date}}</td>
-                                                <td></br>{{$acc['account_id_from']}} </td>
-                                                <td></br>{{$acc['account_id_to']}}</td>
+                                                <td>{{$acc['account_no_from']}} <br>{{$acc['name1']}}&nbsp;{{$acc['surname1']}}</td>
+                                                <td>{{$acc['account_no_to']}} <br>{{$acc['name2']}}&nbsp;{{$acc['surname2']}}</td>
                                                 <td>{{$acc['purpose']}}</td>
-                                                @if($acc['account_id_from']==$acc_id->id)
-                                                    <td> {{'-'.$acc['amount']}}</td>
-                                                @else
+                                                @if($acc['account_id_to']==$acc_id->id)
                                                     <td> {{$acc['amount']}}</td>
+                                                @else
+                                                    <td> {{'-'.$acc['amount']}}</td>
                                                 @endif
                                                 <td>
-                                                @if($acc['status']==1)
-                                                    <a href="/cancel/{{$acc['id']}}" class="btn btn-xs btn-danger pull-right">Vykdomas. Atšaukti</a>
+                                                    @if($acc['status']==1)
+                                                        <a href="/cancel/{{$acc['id']}}" class="btn btn-xs btn-danger pull-right">Vykdomas. Atšaukti</a>
 
                                                     @else
-                                                    <a class="btn btn-xs btn-success pull-right disabled text-white">Įvykdytas</a>
-                                                @endif
+                                                        <a class="btn btn-xs btn-success pull-right disabled text-white">Įvykdytas</a>
+                                                    @endif
                                                 </td>
                                                 <?php $no=$no+1 ?>
+                                        @else
+
                                         @endif
                                     @empty
                                     @endforelse
@@ -65,5 +66,9 @@
             </div>
         </div>
     </div>
+
+
+
+
 @endsection
 

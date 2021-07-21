@@ -108,7 +108,7 @@ class TransferController extends Controller
         ]);
 
         $data=SendMoney::dispatch($ac, $ac1, request('faccountfrom'), request('faccountto'), request('amount'),  $tid->id )
-            ->delay(30);
+            ->delay(120);
 
         //dd($request);
        // dd($ats->id);prepareForValidation
@@ -128,16 +128,26 @@ class TransferController extends Controller
                     $aw = json_decode($job->payload)->data->command;
                     $cm = unserialize($aw);
                    //dd($cm->tid.$job->id);
-                    if($cm->tid == $account){
+
+
+            if($cm->tid == $account){
+
+                try {  //jei ivyks klaida kurioj nors is 4-iu uzklausu, nebus trinami irasai
+                    DB::beginTransaction();
                       DB::table('jobs')->whereId($job->id)->delete();
                       DB::table('transfers')->whereId($account)->delete();
                       $acc_reserved=DB::table('accounts')->where('account_no',$cm->faccountfrom)->first()->reserved;
                       Account::where('account_no', $cm->faccountfrom)->update(['reserved' => $acc_reserved-$cm->amount]);
-                        //dar reik siust zinute pavyko
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
+            }
+                      //dar reik siust zinute pavyko
                     }else{
-                        //dar reik siust zinute nepavyko
+                        //dar reik siust zinute nepavyko arba
                     }
         }
+        return redirect('/');
 //https://stackoverflow.com/questions/40139208/how-do-i-nicely-decode-laravel-failed-jobs-json
 //        dd($cm->tid);
     }

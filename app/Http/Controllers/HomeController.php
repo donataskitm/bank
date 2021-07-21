@@ -63,25 +63,44 @@ class HomeController extends Controller
             ]
         );
 
-        $transfers1= User::join('accounts', 'accounts.user_id', 'users.id')
-            ->join('transfers', 'account_id_from', 'accounts.id')
-            ->where('users.id', '=', $query_userID)
-            ->where('account_no', '=', $request->input('faccount'))
-            ->whereBetween('date', [$request->input('datefrom'), $request->input('dateto')]);
+//        $transfers1= User::join('accounts', 'accounts.user_id', 'users.id')
+//            ->join('transfers', 'account_id_from', 'accounts.id')
+//            ->where('users.id', '=', $query_userID)
+//            ->where('account_no', '=', $request->input('faccount'))
+//            ->whereBetween('date', [$request->input('datefrom'), $request->input('dateto')]);
+//
+//        $transfers= User::join('accounts', 'accounts.user_id', 'users.id')
+//            ->join('transfers', 'account_id_to', 'accounts.id')
+//            ->where('users.id', '=', $query_userID)
+//            ->where('account_no', '=', $request->input('faccount'))
+//            ->whereBetween('date', [$request->input('datefrom'), $request->input('dateto')])
+//            ->union($transfers1)
+//            ->orderBy('date', 'desc')
+//            ->get();
 
-        $transfers= User::join('accounts', 'accounts.user_id', 'users.id')
-            ->join('transfers', 'account_id_to', 'accounts.id')
-            ->where('users.id', '=', $query_userID)
-            ->where('account_no', '=', $request->input('faccount'))
-            ->whereBetween('date', [$request->input('datefrom'), $request->input('dateto')])
-            ->union($transfers1)
-            ->orderBy('date', 'desc')
-            ->get();
 
-        $transfers->moredata = $request->input('faccount');
+        $transfers=Transfer:: select('status', 'transfers.account_id_from', 'transfers.account_id_to',  'purpose', 'amount', 'transfers.id', 'a1.account_no as account_no_from' , 'a2.account_no as account_no_to', 'u1.name as name1', 'u1.surname as surname1', 'u2.name as name2', 'u2.surname as surname2', 'transfers.date')
+
+            ->join('accounts as a1', 'a1.id', '=', 'transfers.account_id_from')
+            ->join('users as u1', 'u1.id', '=', 'a1.user_id')
+            ->join('accounts as a2', 'a2.id', '=', 'transfers.account_id_to')
+            ->join('users as u2', 'u2.id', '=', 'a2.user_id')
+
+
+            ->whereBetween('transfers.date', [$request->input('datefrom'), $request->input('dateto')])
+        ->where('a1.account_no', '=', $request->input('faccount'))
+        ->orWhere('a2.account_no', '=', $request->input('faccount'))
+            ->orderBy('transfers.date', 'desc')
+            ->get( );
+
+
+
+
+       // $transfers->moredata = $request->input('faccount');
         //  $transfers = User::find(auth()->user()->id);
-       // $sask=  $request->input('faccount');
+        $sask=  $request->input('faccount');
         $acc_id = Account::firstWhere('account_no', $request->input('faccount'));
+       // dd($transfers.'k');
         return view('pages.list', compact('transfers'), compact('acc_id'));
     }
 }
