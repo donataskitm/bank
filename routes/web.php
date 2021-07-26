@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TransferController;
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +16,10 @@ use App\Http\Controllers\TransferController;
 Route::resource('/', HomeController::class);
 Route::get('/search', [HomeController::class, 'search']);
 Route::get('/transfer', [HomeController::class, 'transfer']);
+Route::get('/transfer1', [HomeController::class, 'transfer1']);
 Route::post('/list', [HomeController::class, 'list']);
 Route::post('/store', [TransferController::class, 'store']);
+Route::post('/store1', [TransferController::class, 'store1']);
 Route::get('/error', [TransferController::class, 'error']);
 Route::get('/cancel/{id}', [TransferController::class, 'cancel']);
 

@@ -49,7 +49,6 @@
                                     <div class="form-group col-md-4">
                                         <label for="name">Suma</label>
                                         <input type="text" class="form-control" id="amount" name="amount" placeholder="" value="{{old('amount')}}"> </div>
-
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">

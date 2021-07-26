@@ -40,6 +40,11 @@ class HomeController extends Controller
     public function transfer(){
         return view('pages.transfer');
     }
+
+    public function transfer1(){
+        return view('pages.transfer1');
+    }
+
     public function list(Request $request){
 
         $query_userID = auth()->user()->id;
@@ -80,20 +85,15 @@ class HomeController extends Controller
 
 
         $transfers=Transfer:: select('status', 'transfers.account_id_from', 'transfers.account_id_to',  'purpose', 'amount', 'transfers.id', 'a1.account_no as account_no_from' , 'a2.account_no as account_no_to', 'u1.name as name1', 'u1.surname as surname1', 'u2.name as name2', 'u2.surname as surname2', 'transfers.date')
-
             ->join('accounts as a1', 'a1.id', '=', 'transfers.account_id_from')
             ->join('users as u1', 'u1.id', '=', 'a1.user_id')
             ->join('accounts as a2', 'a2.id', '=', 'transfers.account_id_to')
             ->join('users as u2', 'u2.id', '=', 'a2.user_id')
-
-
             ->whereBetween('transfers.date', [$request->input('datefrom'), $request->input('dateto')])
-        ->where('a1.account_no', '=', $request->input('faccount'))
-        ->orWhere('a2.account_no', '=', $request->input('faccount'))
+            ->where('a1.account_no', '=', $request->input('faccount'))
+            ->orWhere('a2.account_no', '=', $request->input('faccount'))
             ->orderBy('transfers.date', 'desc')
             ->get( );
-
-
 
 
        // $transfers->moredata = $request->input('faccount');

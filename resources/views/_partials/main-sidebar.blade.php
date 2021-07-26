@@ -42,6 +42,12 @@
                     <span>Atlikti pavedimą</span>
                 </a>
             </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/transfer1">
+                        <i class="material-icons">note_add</i>
+                        <span>Atlikti pavedimą <br>tarp savo sąskaitų</span>
+                    </a>
+                </li>
             <li class="nav-item">
                 <a class="nav-link " href="/logout">
                     <i class="material-icons">view_module</i>

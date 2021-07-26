@@ -17,15 +17,12 @@ use Illuminate\Validation\ValidationException;
 
 class TransferController extends Controller
 {
-
     public function filterAccNumber($acc_id){
         return DB::table('accounts')
             ->select('id')
             ->where('account_no', '=', $acc_id)
             ->first();
     }
-
-
 
     protected function prepareForValidation()
     {
@@ -112,10 +109,67 @@ class TransferController extends Controller
 
         //dd($request);
        // dd($ats->id);prepareForValidation
-
-        //return redirect('/transfer');
         //return Redirect::back('/transfer')->withStatus('Mokejimas atliktas');
         return redirect('/transfer')->with('message','Mokejimas atliktas');
+    }
+
+    public function store1(Request $request){
+        $ac  = Account::where('account_no', '=', request('faccountto'))->first();
+        if(isset($ac)) {
+            $us = User::where('id', '=', $ac['user_id'])->first();
+        }else{
+            throw ValidationException::withMessages(['Įvesta klaidinga gavėjo sąskaita']);
+        }
+        $ac1  = Account::where('account_no', '=', request('faccountfrom'))->first();
+
+
+        $validateData = $request->validate([
+            'faccountfrom'=>'required|string|min:20|max:20',
+            'faccountto'=>[
+                'required',
+                'string',
+                'different:faccountfrom',
+                Rule::exists('accounts', 'account_no')
+                    ->where('account_no', request('faccountto'))],
+            'amount'=>'required'
+        ],
+            [
+                'faccountfrom.required'=> 'Pasirinkite sąskaitą',
+                'faccountfrom.string'=>  'Klaidinga sąskaita',
+                'faccountfrom.min'=>  'Klaida. Klaidinga sąskaita',
+                'faccountfrom.max'=> 'Klaida. Klaidinga sąskaita',
+                'faccountto.exists'=> 'Klaida. Tokia sąskaita neegzistuoja',
+                'faccountto.different'=> 'Klaida. Gavėjo sąskaita sutampa su pavedimo sąskaita',
+                'faccountto.required'=> 'Įveskite gavėjo sąskaitos numerį',
+                'amount.required' => 'Įveskite pavedimo sumą'
+            ]
+        );
+
+
+
+        if($ac1['balance']-$ac1['reserved']>=request('amount')) {
+            Account::where('account_no', request('faccountfrom'))->update(['reserved' => $ac1['reserved']+request('amount')]);
+        }else{
+            throw ValidationException::withMessages(['Saskaitoje nepakanka lėšų']);
+            // return redirect()->back()->withInput();
+        }
+
+        $tid=Transfer::create([
+            'account_id_from' => self::filterAccNumber(request('faccountfrom'))->id, //
+            'account_id_to'=> self::filterAccNumber(request('faccountto'))->id,
+            'purpose'=>'pavedimas tarp savo sąskaitų',
+            'status'=>1,
+            'amount'=> request('amount'),
+            'date'=>now()->format('Y-m-d')
+        ]);
+
+        $data=SendMoney::dispatch($ac, $ac1, request('faccountfrom'), request('faccountto'), request('amount'),  $tid->id )
+            ->delay(120);
+
+        //dd($request);
+        // dd($ats->id);prepareForValidation
+        //return Redirect::back('/transfer')->withStatus('Mokejimas atliktas');
+        return redirect('/transfer1')->with('message','Mokejimas atliktas');
     }
 
     public function cancel($account)
@@ -129,22 +183,20 @@ class TransferController extends Controller
                     $cm = unserialize($aw);
                    //dd($cm->tid.$job->id);
 
-
             if($cm->tid == $account){
-
                 try {  //jei ivyks klaida kurioj nors is 4-iu uzklausu, nebus trinami irasai
                     DB::beginTransaction();
                       DB::table('jobs')->whereId($job->id)->delete();
                       DB::table('transfers')->whereId($account)->delete();
                       $acc_reserved=DB::table('accounts')->where('account_no',$cm->faccountfrom)->first()->reserved;
                       Account::where('account_no', $cm->faccountfrom)->update(['reserved' => $acc_reserved-$cm->amount]);
-                DB::commit();
-            } catch (\Exception $e) {
-                DB::rollback();
-            }
+                    DB::commit();
+                } catch (\Exception $e) {
+                    DB::rollback();
+                }
                       //dar reik siust zinute pavyko
-                    }else{
-                        //dar reik siust zinute nepavyko arba
+            }else{
+                        //dar reik siust zinute nepavyko
                     }
         }
         return redirect('/');
