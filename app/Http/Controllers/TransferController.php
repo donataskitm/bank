@@ -65,7 +65,7 @@ class TransferController extends Controller
                 Rule::exists('users', 'name')
                     ->where('name', $us['name'])],
             'purpose'=>'required|max:255',
-            'amount'=>'required'
+            'amount'=>'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/'
         ],
             [
                 'faccountfrom.required'=> 'Pasirinkite sąskaitą',
@@ -81,7 +81,8 @@ class TransferController extends Controller
                 'name.exists' => 'Neteisingas vardas. Šiam vartotojui nepriklauso nurodyta sąskaita',
                 'purpose.required' => 'Įveskite pavedimo paskirtį',
                 'purpose.max' => 'Sutrumpinkite pavedimo paskirties tekstą',
-                'amount.required' => 'Įveskite pavedimo sumą'
+                'amount.required' => 'Įveskite pavedimo sumą',
+                'amount.regex' => 'Netinkamas skaičių formatas. Pvz.: 10.15'
 
             ]
         );
@@ -131,7 +132,8 @@ class TransferController extends Controller
                 'different:faccountfrom',
                 Rule::exists('accounts', 'account_no')
                     ->where('account_no', request('faccountto'))],
-            'amount'=>'required'
+            'amount'=>'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/'
+
         ],
             [
                 'faccountfrom.required'=> 'Pasirinkite sąskaitą',
@@ -141,7 +143,8 @@ class TransferController extends Controller
                 'faccountto.exists'=> 'Klaida. Tokia sąskaita neegzistuoja',
                 'faccountto.different'=> 'Klaida. Gavėjo sąskaita sutampa su pavedimo sąskaita',
                 'faccountto.required'=> 'Įveskite gavėjo sąskaitos numerį',
-                'amount.required' => 'Įveskite pavedimo sumą'
+                'amount.required' => 'Įveskite pavedimo sumą',
+                'amount.regex' => 'Netinkamas skaičių formatas. Pvz.: 10.15'
             ]
         );
 
