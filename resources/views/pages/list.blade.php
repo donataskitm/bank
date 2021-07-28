@@ -12,7 +12,7 @@
                 <div class="col">
                     <div class="card card-small mb-4">
                         <div class="card-header border-bottom">
-                            <h6 class="m-0">Sąskaitos {{$acc_id->id}} pavedimai</h6>
+                            <h6 class="m-0">Sąskaitos {{$acc_id->account_no}} pavedimai</h6>
                         </div>
                         <div class="card-body p-0 pb-3 text-center">
                             <h4 class="mb-0">{{ auth()->user()->name }} {{ auth()->user()->surname }}</h4>

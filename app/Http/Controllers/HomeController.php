@@ -92,6 +92,7 @@ class HomeController extends Controller
             ->whereBetween('transfers.date', [$request->input('datefrom'), $request->input('dateto')])
             ->where('a1.account_no', '=', $request->input('faccount'))
             ->orWhere('a2.account_no', '=', $request->input('faccount'))
+            ->whereBetween('transfers.date', [$request->input('datefrom'), $request->input('dateto')])
             ->orderBy('transfers.date', 'desc')
             ->get( );
 
